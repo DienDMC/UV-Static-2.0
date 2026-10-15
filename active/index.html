@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style/global.css">
     <link rel="stylesheet" href="style/browser.css">
     <style>
-        /* Force wide full-screen responsive spacing layouts */
+        /* Modern Dark Mode theme with a full-screen fluid layout */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -15,21 +15,63 @@
             padding: 0 !important;
             display: flex !important;
             flex-direction: column !important;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            overflow: hidden;
         }
 
-        /* Permanently keep mobile-error screen block warnings invisible */
-        #mobile-error, .error-overlay, p:has-text("smaller screens") {
-            display: none !important;
-        }
-
-        /* Enforce edge-to-edge responsiveness on layout wrappers */
-        main, #content, .container, form {
-            width: 100% !important;
+        /* Top control navbar panel layout stretching side-to-side */
+        .top-navbar {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 10px 16px !important;
+            border-bottom: 1px solid #2d2d2d;
+            background-color: #1a1a1a;
             box-sizing: border-box !important;
         }
 
-        /* Stretch out your main game rendering window dynamically */
-        iframe, #web-viewer, #uv-frame {
+        .logo {
+            font-weight: bold;
+            font-size: 16px;
+            color: #bb86fc;
+            margin-right: 5px;
+        }
+
+        .nav-btn {
+            padding: 6px 12px !important;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #3d3d3d;
+            background: #252525;
+            color: #e0e0e0;
+            border-radius: 6px;
+        }
+
+        /* Form layout configurations */
+        #uv-form {
+            flex-grow: 1 !important;
+            display: flex !important;
+        }
+
+        #uv-address {
+            width: 100% !important;
+            padding: 8px 14px !important;
+            font-size: 14px !important;
+            border: 1px solid #3d3d3d;
+            background-color: #252525;
+            color: #ffffff;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        #uv-address:focus {
+            border-color: #bb86fc;
+        }
+
+        /* Force output canvas viewer to occupy 100% space */
+        #uv-frame {
             width: 100% !important;
             flex-grow: 1 !important;
             border: none !important;
@@ -40,18 +82,21 @@
 </head>
 <body>
 
-    <!-- Main Navigation Header Area -->
-    <main>
+    <div class="top-navbar">
+        <span class="logo">v2</span>
+        <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.history.back()">← Back</button>
+        <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.history.forward()">→</button>
+        <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.location.reload()">↻</button>
+        
         <form id="uv-form">
             <input id="uv-search-engine" value="https://google.com" type="hidden">
-            <input id="uv-address" type="text" placeholder="Search the web freely..." autofocus required>
+            <input id="uv-address" type="text" placeholder="Search Google or type a web address..." autofocus required>
         </form>
-    </main>
+    </div>
 
-    <!-- Embedded proxy navigation window element -->
     <iframe id="uv-frame"></iframe>
 
-    <!-- Restored authentic Ultraviolet pipeline scripts -->
+    <!-- Essential script handlers configured directly to /active/ subdirectory maps -->
     <script src="uv/uv.bundle.js" defer></script>
     <script src="uv/uv.config.js" defer></script>
     <script src="index.js" defer></script>
