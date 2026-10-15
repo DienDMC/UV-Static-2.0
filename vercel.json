@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    {
+      "src": "/active/uv/service/(.*)",
+      "dest": "/active/uv/service/index.html"
+    },
+    {
+      "src": "/uv/service/(.*)",
+      "dest": "/active/uv/service/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
