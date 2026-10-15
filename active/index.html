@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
-    <link rel="stylesheet" href="style/global.css">
-    <link rel="stylesheet" href="style/browser.css">
     <style>
-        /* Force layout out of the top-left corner and stretch it full screen */
+        /* Force wide full-screen responsive spacing layouts */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -15,38 +13,55 @@
             padding: 0 !important;
             display: flex !important;
             flex-direction: column !important;
-            font-family: sans-serif;
-            background-color: #fff;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
         }
 
-        /* Top controls section wrapper stretching side-to-side */
-        .header-container {
+        /* Top address navbar container spacing layout */
+        .top-navbar {
             display: flex !important;
-            flex-wrap: wrap !important;
-            width: 100% !important;
             align-items: center !important;
-            gap: 15px !important;
-            padding: 10px !important;
+            gap: 10px !important;
+            padding: 8px 12px !important;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: #ffffff;
             box-sizing: border-box !important;
-            border-bottom: 1px solid #ccc;
         }
 
-        /* Force the navigation search bar to grow wide across the screen */
-        input[type="text"], .search-bar, #url-bar {
+        .logo {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            margin-right: 5px;
+        }
+
+        .nav-btn {
+            padding: 4px 10px !important;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+
+        /* Allow proxy search submission block to stretch horizontally */
+        #uv-form {
             flex-grow: 1 !important;
-            min-width: 200px !important;
-            padding: 8px !important;
-            font-size: 14px;
-        }
-
-        /* Navigation control buttons horizontal layout alignment */
-        .nav-buttons {
             display: flex !important;
-            gap: 5px !important;
         }
 
-        /* Force the web view proxy panel to take up all remaining white space */
-        iframe, #iframe, #web-viewer, main {
+        /* Scale submission text field box wide across screens */
+        #uv-address {
+            width: 100% !important;
+            padding: 6px 10px !important;
+            font-size: 14px !important;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        /* Force display panel window canvas to utilize all empty screen room */
+        #uv-frame {
             width: 100% !important;
             flex-grow: 1 !important;
             border: none !important;
@@ -56,22 +71,25 @@
 </head>
 <body>
 
-    <div class="header-container">
-        <h1 style="margin:0; font-size:24px; color:#4a154b;">v2</h1>
+    <div class="top-navbar">
+        <span class="logo">v2</span>
+        <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.history.back()">← Back</button>
+        <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.history.forward()">→</button>
+        <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.location.reload()">↻</button>
         
-        <div class="nav-buttons">
-            <button id="back-btn">← Back</button>
-            <button id="forward-btn">→</button>
-            <button id="refresh-btn">↻</button>
-            <button id="menu-btn">≡</button>
-        </div>
-
-        <input type="text" id="url-bar" placeholder="Search or enter URL...">
+        <!-- Connected Proxy Form Component Block -->
+        <form id="uv-form">
+            <input id="uv-search-engine" value="https://google.com" type="hidden">
+            <input id="uv-address" type="text" placeholder="Search Google or enter target URL..." autofocus required>
+        </form>
     </div>
 
-    <!-- The background webview system window -->
-    <iframe id="web-viewer" src="about:blank"></iframe>
+    <!-- Active output frame rendering targeted sites -->
+    <iframe id="uv-frame"></iframe>
 
-    <script src="scripts/index.js" defer></script>
+    <!-- Essential backend architecture dependency routing lines -->
+    <script src="uv/uv.bundle.js" defer></script>
+    <script src="uv/uv.config.js" defer></script>
+    <script src="index.js" defer></script>
 </body>
 </html>
