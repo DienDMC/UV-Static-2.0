@@ -4,184 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
+    <link rel="stylesheet" href="style/global.css">
+    <link rel="stylesheet" href="style/browser.css">
     <style>
-        /* Modern Dark Mode Interface Layout */
+        /* Force wide full-screen responsive spacing layouts */
         html, body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
-            overflow: hidden;
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
 
-        /* Sleek Navigation address bar header panel */
-        .top-navbar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            border-bottom: 1px solid #2d2d2d;
-            background-color: #1a1a1a;
-            box-sizing: border-box;
+        /* Permanently keep mobile-error screen block warnings invisible */
+        #mobile-error, .error-overlay, p:has-text("smaller screens") {
+            display: none !important;
         }
 
-        .logo {
-            font-weight: bold;
-            font-size: 18px;
-            color: #bb86fc;
-            letter-spacing: 0.5px;
+        /* Enforce edge-to-edge responsiveness on layout wrappers */
+        main, #content, .container, form {
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
 
-        #search-form {
-            flex-grow: 1;
-            display: flex;
-            gap: 10px;
-        }
-
-        #search-address {
-            flex-grow: 1;
-            padding: 10px 16px;
-            font-size: 14px;
-            border: 1px solid #3d3d3d;
-            background-color: #252525;
-            color: #ffffff;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        #search-address:focus {
-            border-color: #bb86fc;
-        }
-
-        .launch-btn {
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            background-color: #bb86fc;
-            color: #121212;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .launch-btn:hover {
-            background-color: #9965db;
-        }
-
-        /* Main Game Grid Dashboard Space */
-        .main-dashboard {
-            flex-grow: 1;
-            padding: 40px 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .dashboard-title {
-            font-size: 24px;
-            margin-bottom: 30px;
-            color: #ffffff;
-            text-align: center;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .game-card {
-            background-color: #1a1a1a;
-            border: 1px solid #2d2d2d;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .game-card:hover {
-            transform: translateY(-4px);
-            border-color: #bb86fc;
-        }
-
-        .game-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .game-name {
-            font-size: 14px;
-            font-weight: 500;
+        /* Stretch out your main game rendering window dynamically */
+        iframe, #web-viewer, #uv-frame {
+            width: 100% !important;
+            flex-grow: 1 !important;
+            border: none !important;
+            height: 100% !important;
+            background-color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <div class="top-navbar">
-        <span class="logo">v2</span>
-        <form id="search-form" onsubmit="launchUnblockedTab(event)">
-            <input id="search-address" type="text" placeholder="Type a game name, search query, or paste website link here..." autofocus required>
-            <button type="submit" class="launch-btn">Launch Unblocked Tab</button>
+    <!-- Main Navigation Header Area -->
+    <main>
+        <form id="uv-form">
+            <input id="uv-search-engine" value="https://google.com" type="hidden">
+            <input id="uv-address" type="text" placeholder="Search the web freely..." autofocus required>
         </form>
-    </div>
+    </main>
 
-    <div class="main-dashboard">
-        <h2 class="dashboard-title">Quick Launch Unblocked Portal Games</h2>
-        
-        <div class="games-grid">
-            <div class="game-card" onclick="launchGame('https://coolmathgames.com')">
-                <div class="game-icon">✏️</div>
-                <div class="game-name">Coolmath Games</div>
-            </div>
-            <div class="game-card" onclick="launchGame('https://poki.com')">
-                <div class="game-icon">🎮</div>
-                <div class="game-name">Poki Games</div>
-            </div>
-            <div class="game-card" onclick="launchGame('https://crazygames.com')">
-                <div class="game-icon">🔥</div>
-                <div class="game-name">CrazyGames</div>
-            </div>
-            <div class="game-card" onclick="launchGame('https://hwcdn.net')">
-                <div class="game-icon">🧭</div>
-                <div class="game-name">Retro Minecraft</div>
-            </div>
-        </div>
-    </div>
+    <!-- Embedded proxy navigation window element -->
+    <iframe id="uv-frame"></iframe>
 
-    <script>
-        function launchUnblockedTab(event) {
-            event.preventDefault(); 
-            let queryInput = document.getElementById('search-address').value.trim();
-            if (!queryInput) return;
-
-            let targetUrl = queryInput;
-            if (!/^https?:\/\//i.test(queryInput)) {
-                if (queryInput.includes('.') && !queryInput.includes(' ')) {
-                    targetUrl = 'https://' + queryInput;
-                } else {
-                    targetUrl = 'https://bing.com' + encodeURIComponent(queryInput);
-                }
-            }
-
-            // Bypasses the iframe connection blocks by creating an isolated tab instance
-            window.open(targetUrl, '_blank');
-        }
-
-        function launchGame(url) {
-            window.open(url, '_blank');
-        }
-    </script>
+    <!-- Restored authentic Ultraviolet pipeline scripts -->
+    <script src="uv/uv.bundle.js" defer></script>
+    <script src="uv/uv.config.js" defer></script>
+    <script src="index.js" defer></script>
 </body>
 </html>
-
