@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
     <style>
-        /* Responsive edge-to-edge full layout container rules */
+        /* Modern Dark Mode theme with a full-screen fluid layout */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -13,38 +13,47 @@
             padding: 0 !important;
             display: flex !important;
             flex-direction: column !important;
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            overflow: hidden;
         }
 
-        /* Top address controls bar panel wrapper rules */
+        /* Sleek top navigation address bar header panel */
         .top-navbar {
             display: flex !important;
             align-items: center !important;
             gap: 10px !important;
-            padding: 8px 12px !important;
-            border-bottom: 1px solid #e0e0e0;
-            background-color: #ffffff;
+            padding: 10px 16px !important;
+            border-bottom: 1px solid #2d2d2d;
+            background-color: #1a1a1a;
             box-sizing: border-box !important;
         }
 
         .logo {
             font-weight: bold;
             font-size: 16px;
-            color: #333;
+            color: #bb86fc;
             margin-right: 5px;
+            letter-spacing: 0.5px;
         }
 
         .nav-btn {
-            padding: 4px 10px !important;
+            padding: 6px 12px !important;
             font-size: 13px;
             cursor: pointer;
-            border: 1px solid #ccc;
-            background: #fafafa;
-            border-radius: 4px;
+            border: 1px solid #3d3d3d;
+            background: #252525;
+            color: #e0e0e0;
+            border-radius: 6px;
+            transition: background 0.2s;
         }
 
-        /* Search input bar horizontal structural growth configuration */
+        .nav-btn:hover {
+            background: #333333;
+        }
+
+        /* Fluid layout constraints for search form and input elements */
         #proxy-form {
             flex-grow: 1 !important;
             display: flex !important;
@@ -52,19 +61,27 @@
 
         #proxy-address {
             width: 100% !important;
-            padding: 6px 10px !important;
+            padding: 8px 14px !important;
             font-size: 14px !important;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #3d3d3d;
+            background-color: #252525;
+            color: #ffffff;
+            border-radius: 6px;
             outline: none;
+            transition: border-color 0.2s;
         }
 
-        /* Active frame viewer panel utilizing all available white spaces */
+        #proxy-address:focus {
+            border-color: #bb86fc;
+        }
+
+        /* Force display panel viewport window canvas to fill up 100% space */
         #proxy-frame {
             width: 100% !important;
             flex-grow: 1 !important;
             border: none !important;
             height: 100% !important;
+            background-color: #ffffff;
         }
     </style>
 </head>
@@ -76,25 +93,24 @@
         <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.history.forward()">→</button>
         <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.location.reload()">↻</button>
         
-        <!-- Submission wrapper handling proxy data pipelines -->
         <form id="proxy-form" onsubmit="loadProxyUrl(event)">
-            <input id="proxy-address" type="text" placeholder="Enter website address or look up searches..." autofocus required>
+            <input id="proxy-address" type="text" placeholder="Search freely or enter target URL..." autofocus required>
         </form>
     </div>
 
-    <!-- The primary output preview viewport element -->
+    <!-- Main embedded rendering iframe viewer window -->
     <iframe id="proxy-frame" src="about:blank"></iframe>
 
     <script>
         function loadProxyUrl(event) {
-            event.preventDefault(); // Prevents form submission from refreshing the home page
+            event.preventDefault(); 
             
             let urlInput = document.getElementById('proxy-address').value.trim();
             const iframe = document.getElementById('proxy-frame');
             
             if (!urlInput) return;
 
-            // Normalize input into an operational URL layout format
+            // Formulate target strings to enforce clean search query structures
             let targetUrl = urlInput;
             if (!/^https?:\/\//i.test(urlInput)) {
                 if (urlInput.includes('.') && !urlInput.includes(' ')) {
@@ -104,20 +120,25 @@
                 }
             }
 
-            // Detect Google Search queries and pipe them into Google's official frame-friendly interface
+            // Route standard Google Search layouts natively through an iframe-friendly embed channel
             if (targetUrl.includes('://google.com')) {
-                const searchTerms = new URL(targetUrl).searchParams.get('q');
-                iframe.src = "https://www.://google.com?igu=1&q=" + encodeURIComponent(searchTerms);
+                const searchParams = new URL(targetUrl).searchParams;
+                const queryText = searchParams.get('q');
+                iframe.src = "https://www.://google.com?igu=1&q=" + encodeURIComponent(queryText);
             } else {
-                // For regular blocked links, route through an active public proxy server gateway mirror
-                iframe.src = "https://codepen.io" + encodeURIComponent(targetUrl);
+                // To bypass CORS and X-Frame limits on Vercel, we tunnel site URLs 
+                // directly through a fast public proxy deployment node mirror instance
+                const proxyInstanceUrl = "https://herokuapp.com";
                 
-                // Secondary absolute fail-safe unblocking sandbox mirror anchor route
-                if(targetUrl.toLowerCase().includes('google.com') && !targetUrl.includes('search')){
-                     iframe.src = "https://www.://google.com?igu=1";
+                if (targetUrl.toLowerCase().includes('google.com')) {
+                    iframe.src = "https://www.://google.com?igu=1";
+                } else {
+                    // Send game sites and standard links through the external proxy node layer
+                    iframe.src = "https://corsproxy.io?" + encodeURIComponent(targetUrl);
                 }
             }
         }
     </script>
 </body>
 </html>
+
