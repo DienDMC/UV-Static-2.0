@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
     <style>
-        /* Modern Dark Mode theme with a full-screen fluid layout */
+        /* Sleek Modern Dark Mode full-screen layout */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -19,7 +19,7 @@
             overflow: hidden;
         }
 
-        /* Sleek top navigation address bar header panel */
+        /* Top control header panel layout stretching side-to-side */
         .top-navbar {
             display: flex !important;
             align-items: center !important;
@@ -53,7 +53,7 @@
             background: #333333;
         }
 
-        /* Fluid layout constraints for search form and input elements */
+        /* Search form fluid horizontal growth styling layout */
         #proxy-form {
             flex-grow: 1 !important;
             display: flex !important;
@@ -75,7 +75,7 @@
             border-color: #bb86fc;
         }
 
-        /* Force display panel viewport window canvas to fill up 100% space */
+        /* Force your core output display frame to fill 100% viewport space */
         #proxy-frame {
             width: 100% !important;
             flex-grow: 1 !important;
@@ -94,11 +94,11 @@
         <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.location.reload()">↻</button>
         
         <form id="proxy-form" onsubmit="loadProxyUrl(event)">
-            <input id="proxy-address" type="text" placeholder="Search freely or enter target URL..." autofocus required>
+            <input id="proxy-address" type="text" placeholder="Search Google or enter any website link here..." autofocus required>
         </form>
     </div>
 
-    <!-- Main embedded rendering iframe viewer window -->
+    <!-- Main embedded iframe workspace rendering window -->
     <iframe id="proxy-frame" src="about:blank"></iframe>
 
     <script>
@@ -110,7 +110,7 @@
             
             if (!urlInput) return;
 
-            // Formulate target strings to enforce clean search query structures
+            // Formulate target strings to enforce clean browser-ready search query structures
             let targetUrl = urlInput;
             if (!/^https?:\/\//i.test(urlInput)) {
                 if (urlInput.includes('.') && !urlInput.includes(' ')) {
@@ -120,25 +120,17 @@
                 }
             }
 
-            // Route standard Google Search layouts natively through an iframe-friendly embed channel
+            // Direct rule routing specifically for embedding Google Search results inside an iframe securely
             if (targetUrl.includes('://google.com')) {
                 const searchParams = new URL(targetUrl).searchParams;
                 const queryText = searchParams.get('q');
                 iframe.src = "https://www.://google.com?igu=1&q=" + encodeURIComponent(queryText);
             } else {
-                // To bypass CORS and X-Frame limits on Vercel, we tunnel site URLs 
-                // directly through a fast public proxy deployment node mirror instance
-                const proxyInstanceUrl = "https://herokuapp.com";
-                
-                if (targetUrl.toLowerCase().includes('google.com')) {
-                    iframe.src = "https://www.://google.com?igu=1";
-                } else {
-                    // Send game sites and standard links through the external proxy node layer
-                    iframe.src = "https://corsproxy.io?" + encodeURIComponent(targetUrl);
-                }
+                // Connect your form submissions to a stable, open public deployment node engine.
+                // This routes websites through an external mirror pipeline to unblock X-Frame security constraints.
+                iframe.src = "https://herokuapp.com" + targetUrl;
             }
         }
     </script>
 </body>
 </html>
-
