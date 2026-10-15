@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
     <style>
-        /* Clean fullscreen fluid responsive container rules */
+        /* Responsive edge-to-edge full layout container rules */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -17,7 +17,7 @@
             background-color: #ffffff;
         }
 
-        /* Top controls address bar header configuration */
+        /* Top address controls bar panel wrapper rules */
         .top-navbar {
             display: flex !important;
             align-items: center !important;
@@ -44,7 +44,7 @@
             border-radius: 4px;
         }
 
-        /* Fluid layout constraints for search form */
+        /* Search input bar horizontal structural growth configuration */
         #proxy-form {
             flex-grow: 1 !important;
             display: flex !important;
@@ -59,7 +59,7 @@
             outline: none;
         }
 
-        /* Enforce edge-to-edge frame scaling mapping layouts */
+        /* Active frame viewer panel utilizing all available white spaces */
         #proxy-frame {
             width: 100% !important;
             flex-grow: 1 !important;
@@ -76,24 +76,25 @@
         <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.history.forward()">→</button>
         <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.location.reload()">↻</button>
         
+        <!-- Submission wrapper handling proxy data pipelines -->
         <form id="proxy-form" onsubmit="loadProxyUrl(event)">
-            <input id="proxy-address" type="text" placeholder="Enter target website or keywords..." autofocus required>
+            <input id="proxy-address" type="text" placeholder="Enter website address or look up searches..." autofocus required>
         </form>
     </div>
 
-    <!-- Active output frame rendering unblocked targets -->
+    <!-- The primary output preview viewport element -->
     <iframe id="proxy-frame" src="about:blank"></iframe>
 
     <script>
         function loadProxyUrl(event) {
-            event.preventDefault(); 
+            event.preventDefault(); // Prevents form submission from refreshing the home page
             
             let urlInput = document.getElementById('proxy-address').value.trim();
             const iframe = document.getElementById('proxy-frame');
             
             if (!urlInput) return;
 
-            // Formulate target strings to enforce secure web layout formats
+            // Normalize input into an operational URL layout format
             let targetUrl = urlInput;
             if (!/^https?:\/\//i.test(urlInput)) {
                 if (urlInput.includes('.') && !urlInput.includes(' ')) {
@@ -103,14 +104,18 @@
                 }
             }
 
-            // Using an unblocking proxy mirror gateway that bypasses X-Frame protection limits
-            // This pulls the website data from an external node, stripping away the blocking headers
+            // Detect Google Search queries and pipe them into Google's official frame-friendly interface
             if (targetUrl.includes('://google.com')) {
-                // Point raw Google searches straight into the frame-friendly open container
-                iframe.src = "https://www.://google.com?igu=1&q=" + targetUrl.split('?q=')[1];
+                const searchTerms = new URL(targetUrl).searchParams.get('q');
+                iframe.src = "https://www.://google.com?igu=1&q=" + encodeURIComponent(searchTerms);
             } else {
-                // For direct websites like google.com, we tunnel through a public mirror engine link layer
-                iframe.src = "https://googleusercontent.com" + encodeURIComponent(targetUrl);
+                // For regular blocked links, route through an active public proxy server gateway mirror
+                iframe.src = "https://codepen.io" + encodeURIComponent(targetUrl);
+                
+                // Secondary absolute fail-safe unblocking sandbox mirror anchor route
+                if(targetUrl.toLowerCase().includes('google.com') && !targetUrl.includes('search')){
+                     iframe.src = "https://www.://google.com?igu=1";
+                }
             }
         }
     </script>
