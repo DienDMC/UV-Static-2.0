@@ -5,76 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
     <style>
-        /* Modern Dark Mode theme with full-screen layouts */
+        /* Modern Dark Mode Interface Layout */
         html, body {
-            width: 100% !important;
-            height: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #121212;
             color: #e0e0e0;
             overflow: hidden;
         }
 
-        /* Top control header panel layout stretching side-to-side */
+        /* Sleek Navigation address bar header panel */
         .top-navbar {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            padding: 10px 16px !important;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
             border-bottom: 1px solid #2d2d2d;
             background-color: #1a1a1a;
-            box-sizing: border-box !important;
+            box-sizing: border-box;
         }
 
         .logo {
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
             color: #bb86fc;
-            margin-right: 5px;
+            letter-spacing: 0.5px;
         }
 
-        .nav-btn {
-            padding: 6px 12px !important;
-            font-size: 13px;
-            cursor: pointer;
-            border: 1px solid #3d3d3d;
-            background: #252525;
-            color: #e0e0e0;
-            border-radius: 6px;
-        }
-
-        /* Search form fluid horizontal alignment */
         #search-form {
-            flex-grow: 1 !important;
-            display: flex !important;
+            flex-grow: 1;
+            display: flex;
+            gap: 10px;
         }
 
         #search-address {
-            width: 100% !important;
-            padding: 8px 14px !important;
-            font-size: 14px !important;
+            flex-grow: 1;
+            padding: 10px 16px;
+            font-size: 14px;
             border: 1px solid #3d3d3d;
             background-color: #252525;
             color: #ffffff;
-            border-radius: 6px;
+            border-radius: 8px;
             outline: none;
+            transition: border-color 0.2s;
         }
 
         #search-address:focus {
             border-color: #bb86fc;
         }
 
-        /* Force display panel viewport window canvas to fill up 100% space */
-        #display-frame {
-            width: 100% !important;
-            flex-grow: 1 !important;
-            border: none !important;
-            height: 100% !important;
-            background-color: #ffffff;
+        .launch-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background-color: #bb86fc;
+            color: #121212;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .launch-btn:hover {
+            background-color: #9965db;
+        }
+
+        /* Main Game Grid Dashboard Space */
+        .main-dashboard {
+            flex-grow: 1;
+            padding: 40px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .game-card {
+            background-color: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: #bb86fc;
+        }
+
+        .game-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .game-name {
+            font-size: 14px;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -82,37 +130,56 @@
 
     <div class="top-navbar">
         <span class="logo">v2</span>
-        <button class="nav-btn" onclick="document.getElementById('display-frame').contentWindow.history.back()">← Back</button>
-        <button class="nav-btn" onclick="document.getElementById('display-frame').contentWindow.history.forward()">→</button>
-        <button class="nav-btn" onclick="document.getElementById('display-frame').contentWindow.location.reload()">↻</button>
-        
-        <form id="search-form" onsubmit="executeWebSearch(event)">
-            <input id="search-address" type="text" placeholder="Type query keywords or copy game urls..." autofocus required>
+        <form id="search-form" onsubmit="launchUnblockedTab(event)">
+            <input id="search-address" type="text" placeholder="Type a game name, search query, or paste website link here..." autofocus required>
+            <button type="submit" class="launch-btn">Launch Unblocked Tab</button>
         </form>
     </div>
 
-    <!-- Clean fallback welcome home screen inside iframe to avoid immediate error triggering -->
-    <iframe id="display-frame" src="https://bing.com"></iframe>
+    <div class="main-dashboard">
+        <h2 class="dashboard-title">Quick Launch Unblocked Portal Games</h2>
+        
+        <div class="games-grid">
+            <div class="game-card" onclick="launchGame('https://coolmathgames.com')">
+                <div class="game-icon">✏️</div>
+                <div class="game-name">Coolmath Games</div>
+            </div>
+            <div class="game-card" onclick="launchGame('https://poki.com')">
+                <div class="game-icon">🎮</div>
+                <div class="game-name">Poki Games</div>
+            </div>
+            <div class="game-card" onclick="launchGame('https://crazygames.com')">
+                <div class="game-icon">🔥</div>
+                <div class="game-name">CrazyGames</div>
+            </div>
+            <div class="game-card" onclick="launchGame('https://hwcdn.net')">
+                <div class="game-icon">🧭</div>
+                <div class="game-name">Retro Minecraft</div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        function executeWebSearch(event) {
-            event.preventDefault(); // Prevents repetitive loops from breaking
-            
+        function launchUnblockedTab(event) {
+            event.preventDefault(); 
             let queryInput = document.getElementById('search-address').value.trim();
-            const iframe = document.getElementById('display-frame');
-            
             if (!queryInput) return;
 
-            // Route search queries natively through Bing to prevent Google 429 errors
-            let cleanString = queryInput.replace(/^https?:\/\//i, '').replace(/^www\./i, '');
-            
-            if (queryInput.includes('.') && !queryInput.includes(' ')) {
-                // If it is a direct game url like coolmathgames.com, let it load natively
-                iframe.src = "https://" + cleanString;
-            } else {
-                // Open lookups safely inside a web frame
-                iframe.src = "https://bing.com" + encodeURIComponent(queryInput);
+            let targetUrl = queryInput;
+            if (!/^https?:\/\//i.test(queryInput)) {
+                if (queryInput.includes('.') && !queryInput.includes(' ')) {
+                    targetUrl = 'https://' + queryInput;
+                } else {
+                    targetUrl = 'https://bing.com' + encodeURIComponent(queryInput);
+                }
             }
+
+            // Bypasses the iframe connection blocks by creating an isolated tab instance
+            window.open(targetUrl, '_blank');
+        }
+
+        function launchGame(url) {
+            window.open(url, '_blank');
         }
     </script>
 </body>
