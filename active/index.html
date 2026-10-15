@@ -126,11 +126,12 @@
                 const queryText = searchParams.get('q');
                 iframe.src = "https://www.://google.com?igu=1&q=" + encodeURIComponent(queryText);
             } else {
-                // Connect your form submissions to a stable, open public deployment node engine.
-                // This routes websites through an external mirror pipeline to unblock X-Frame security constraints.
-                iframe.src = "https://herokuapp.com" + targetUrl;
+                // Connect your form submissions to a stable public Rammerhead deployment instance.
+                // This strips out X-Frame restrictions completely on its own server infrastructure.
+                iframe.src = "https://rammerhead.org" + targetUrl;
             }
         }
     </script>
 </body>
 </html>
+
