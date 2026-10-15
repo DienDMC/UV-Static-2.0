@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
     <style>
-        /* Keep wide fullscreen structure fluid across mobile screens */
+        /* Force wide full-screen responsive spacing layouts */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -17,7 +17,7 @@
             background-color: #ffffff;
         }
 
-        /* Top proxy configuration header structure rules */
+        /* Top address navbar container spacing layout */
         .top-navbar {
             display: flex !important;
             align-items: center !important;
@@ -44,12 +44,13 @@
             border-radius: 4px;
         }
 
-        /* Dynamic fluid growth constraints for search boxes */
+        /* Allow proxy search submission block to stretch horizontally */
         #uv-form {
             flex-grow: 1 !important;
             display: flex !important;
         }
 
+        /* Scale submission text field box wide across screens */
         #uv-address {
             width: 100% !important;
             padding: 6px 10px !important;
@@ -59,7 +60,7 @@
             outline: none;
         }
 
-        /* Enforce edge-to-edge frame visibility mapping canvas layouts */
+        /* Force display panel window canvas to utilize all empty screen room */
         #uv-frame {
             width: 100% !important;
             flex-grow: 1 !important;
@@ -76,19 +77,45 @@
         <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.history.forward()">→</button>
         <button class="nav-btn" onclick="document.getElementById('uv-frame').contentWindow.location.reload()">↻</button>
         
-        <!-- Connected Proxy Verification Processing Form Framework -->
-        <form id="uv-form">
-            <input id="uv-search-engine" value="https://google.com" type="hidden">
+        <!-- Connected Proxy Form Component Block with explicit Javascript inline override -->
+        <form id="uv-form" onsubmit="handleProxySearch(event)">
             <input id="uv-address" type="text" placeholder="Search Google or enter target URL..." autofocus required>
         </form>
     </div>
 
-    <!-- Target embedded browser pipeline frame view screen window -->
+    <!-- Active output frame rendering targeted sites -->
     <iframe id="uv-frame"></iframe>
 
-    <!-- Corrected absolute directory architecture links -->
+    <!-- Core asset dependencies routed explicitly to /active/ subdirectory maps -->
     <script src="/active/uv/uv.bundle.js" defer></script>
     <script src="/active/uv/uv.config.js" defer></script>
-    <script src="/active/index.js" defer></script>
+
+    <script>
+        // Inline execution handler that forces text parsing through Ultraviolet pipeline
+        function handleProxySearch(event) {
+            event.preventDefault(); // STOPS the generic form reload ? glitch
+            
+            const urlInput = document.getElementById('uv-address').value.trim();
+            const iframe = document.getElementById('uv-frame');
+            
+            if (!urlInput) return;
+
+            // Determine if the entry is a direct link or raw search keywords
+            let targetUrl = urlInput;
+            if (!/^https?:\/\//i.test(urlInput) && !urlInput.includes('.')) {
+                targetUrl = 'https://google.com' + encodeURIComponent(urlInput);
+            } else if (!/^https?:\/\//i.test(urlInput)) {
+                targetUrl = 'https://' + urlInput;
+            }
+
+            // Encode using Ultraviolet's internal static translation mapping pipeline
+            if (typeof __uv$config !== 'undefined' && window.__uv$config) {
+                iframe.src = window.location.origin + window.__uv$config.prefix + __uv$config.encodeUrl(targetUrl);
+            } else {
+                // Absolute structural path fallback if config hasn't globally loaded yet
+                iframe.src = window.location.origin + "/active/uv/service/" + btoa(targetUrl).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+            }
+        }
+    </script>
 </body>
 </html>
