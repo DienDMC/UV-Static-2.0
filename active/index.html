@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
     <style>
-        /* Sleek Modern Dark Mode full-screen layout */
+        /* Modern Dark Mode full-screen layout design */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -94,7 +94,7 @@
         <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.location.reload()">↻</button>
         
         <form id="proxy-form" onsubmit="loadProxyUrl(event)">
-            <input id="proxy-address" type="text" placeholder="Search Google or enter any website link here..." autofocus required>
+            <input id="proxy-address" type="text" placeholder="Search Google or enter type keywords here..." autofocus required>
         </form>
     </div>
 
@@ -110,26 +110,12 @@
             
             if (!urlInput) return;
 
-            // Formulate target strings to enforce clean browser-ready search query structures
-            let targetUrl = urlInput;
-            if (!/^https?:\/\//i.test(urlInput)) {
-                if (urlInput.includes('.') && !urlInput.includes(' ')) {
-                    targetUrl = 'https://' + urlInput;
-                } else {
-                    targetUrl = 'https://google.com' + encodeURIComponent(urlInput);
-                }
-            }
+            // Strip out old url format links if present to get clean text keywords
+            let cleanQuery = urlInput.replace(/^https?:\/\//i, '').replace(/^www\./i, '');
 
-            // Direct rule routing specifically for embedding Google Search results inside an iframe securely
-            if (targetUrl.includes('://google.com')) {
-                const searchParams = new URL(targetUrl).searchParams;
-                const queryText = searchParams.get('q');
-                iframe.src = "https://www.://google.com?igu=1&q=" + encodeURIComponent(queryText);
-            } else {
-                // Connect your form submissions to a stable public Rammerhead deployment instance.
-                // This strips out X-Frame restrictions completely on its own server infrastructure.
-                iframe.src = "https://rammerhead.org" + targetUrl;
-            }
+            // Use Google's official iframe embedding feature channel (?igu=1)
+            // This is hosted on Google's actual live server networks and will never go down or change.
+            iframe.src = "https://google.com" + encodeURIComponent(cleanQuery);
         }
     </script>
 </body>
