@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UV Static v2</title>
     <style>
-        /* Modern Dark Mode full-screen layout design */
+        /* Modern Dark Mode theme with full-screen layouts */
         html, body {
             width: 100% !important;
             height: 100% !important;
@@ -13,7 +13,7 @@
             padding: 0 !important;
             display: flex !important;
             flex-direction: column !important;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #121212;
             color: #e0e0e0;
             overflow: hidden;
@@ -35,7 +35,6 @@
             font-size: 16px;
             color: #bb86fc;
             margin-right: 5px;
-            letter-spacing: 0.5px;
         }
 
         .nav-btn {
@@ -46,20 +45,15 @@
             background: #252525;
             color: #e0e0e0;
             border-radius: 6px;
-            transition: background 0.2s;
         }
 
-        .nav-btn:hover {
-            background: #333333;
-        }
-
-        /* Search form fluid horizontal growth styling layout */
-        #proxy-form {
+        /* Search form fluid horizontal alignment */
+        #search-form {
             flex-grow: 1 !important;
             display: flex !important;
         }
 
-        #proxy-address {
+        #search-address {
             width: 100% !important;
             padding: 8px 14px !important;
             font-size: 14px !important;
@@ -68,15 +62,14 @@
             color: #ffffff;
             border-radius: 6px;
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        #proxy-address:focus {
+        #search-address:focus {
             border-color: #bb86fc;
         }
 
-        /* Force your core output display frame to fill 100% viewport space */
-        #proxy-frame {
+        /* Force display panel viewport window canvas to fill up 100% space */
+        #display-frame {
             width: 100% !important;
             flex-grow: 1 !important;
             border: none !important;
@@ -89,34 +82,39 @@
 
     <div class="top-navbar">
         <span class="logo">v2</span>
-        <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.history.back()">← Back</button>
-        <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.history.forward()">→</button>
-        <button class="nav-btn" onclick="document.getElementById('proxy-frame').contentWindow.location.reload()">↻</button>
+        <button class="nav-btn" onclick="document.getElementById('display-frame').contentWindow.history.back()">← Back</button>
+        <button class="nav-btn" onclick="document.getElementById('display-frame').contentWindow.history.forward()">→</button>
+        <button class="nav-btn" onclick="document.getElementById('display-frame').contentWindow.location.reload()">↻</button>
         
-        <form id="proxy-form" onsubmit="loadProxyUrl(event)">
-            <input id="proxy-address" type="text" placeholder="Search Google or enter type keywords here..." autofocus required>
+        <form id="search-form" onsubmit="executeWebSearch(event)">
+            <input id="search-address" type="text" placeholder="Type query keywords or copy game urls..." autofocus required>
         </form>
     </div>
 
-    <!-- Main embedded iframe workspace rendering window -->
-    <iframe id="proxy-frame" src="about:blank"></iframe>
+    <!-- Clean fallback welcome home screen inside iframe to avoid immediate error triggering -->
+    <iframe id="display-frame" src="https://bing.com"></iframe>
 
     <script>
-        function loadProxyUrl(event) {
-            event.preventDefault(); 
+        function executeWebSearch(event) {
+            event.preventDefault(); // Prevents repetitive loops from breaking
             
-            let urlInput = document.getElementById('proxy-address').value.trim();
-            const iframe = document.getElementById('proxy-frame');
+            let queryInput = document.getElementById('search-address').value.trim();
+            const iframe = document.getElementById('display-frame');
             
-            if (!urlInput) return;
+            if (!queryInput) return;
 
-            // Strip out old url format links if present to get clean text keywords
-            let cleanQuery = urlInput.replace(/^https?:\/\//i, '').replace(/^www\./i, '');
-
-            // Use Google's official iframe embedding feature channel (?igu=1)
-            // This is hosted on Google's actual live server networks and will never go down or change.
-            iframe.src = "https://google.com" + encodeURIComponent(cleanQuery);
+            // Route search queries natively through Bing to prevent Google 429 errors
+            let cleanString = queryInput.replace(/^https?:\/\//i, '').replace(/^www\./i, '');
+            
+            if (queryInput.includes('.') && !queryInput.includes(' ')) {
+                // If it is a direct game url like coolmathgames.com, let it load natively
+                iframe.src = "https://" + cleanString;
+            } else {
+                // Open lookups safely inside a web frame
+                iframe.src = "https://bing.com" + encodeURIComponent(queryInput);
+            }
         }
     </script>
 </body>
 </html>
+
